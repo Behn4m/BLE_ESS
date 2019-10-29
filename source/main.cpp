@@ -33,7 +33,7 @@ public:
         _event_queue(event_queue),
         _led1(LED1, 1),
         _led4(LED4, 1),
-        _button(BLE_BUTTON_PIN_NAME, BLE_BUTTON_PIN_PULL),
+        //_button(BLE_BUTTON_PIN_NAME, BLE_BUTTON_PIN_PULL),
         _es_service(NULL),
         _ess_uuid(EnvironmentalService::ES_SERVICE_UUID),
         _adv_data_builder(_adv_buffer) { }
@@ -148,7 +148,7 @@ private:
     DigitalOut  _led1;
     DigitalOut  _led4;
     
-    InterruptIn _button;
+    //InterruptIn _button;
     EnvironmentalService *_es_service;
 
     UUID _ess_uuid;

@@ -1,0 +1,14 @@
+{
+  "name": "BLE_ESS",
+  "version": "0.0.1",
+  "description": "The *input service template* demonstrates the use of a simple input (boolean values) from a read-only characteristic.",
+  "licenses": [
+    {
+
+    }
+  ],
+  "bin": "./source",
+  "dependencies": {
+    "ble": "^2.0.0"
+  }
+}

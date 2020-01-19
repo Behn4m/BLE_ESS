@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 #include <events/mbed_events.h>
 
 #include <mbed.h>
@@ -20,6 +21,9 @@
 #include "ble/Gap.h"
 #include "ble/services/EnvironmentalService.h"
 #include "pretty_printer.h"
+#include "SHT2X.h"
+
+SHT2X SHT20;
 
 const static char DEVICE_NAME[] = "ES_Service";
 
@@ -29,13 +33,13 @@ static EventQueue event_queue(/* event count */ 10 * EVENTS_EVENT_SIZE);
 class ES_Service : ble::Gap::EventHandler {
 public:
     ES_Service(BLE &ble, events::EventQueue &event_queue) :
-        _ble(ble),
-        _event_queue(event_queue),
+        _ble(ble),                                                      //*** BEHNAM:we defined ble as BLE::Instance() methode that returns InstanceID to BLE::init as BLE construcer receives 
+        _event_queue(event_queue),                                      //??? WHY passed event_queue object to _event_queue? in cunstroctor it gets to other values as input!!!
         _led1(LED1, 1),
         _led4(LED4, 1),
         //_button(BLE_BUTTON_PIN_NAME, BLE_BUTTON_PIN_PULL),
         _es_service(NULL),
-        _ess_uuid(GattService::UUID_ENVIRONMENTAL_SERVICE),
+        _ess_uuid(EnvironmentalService::ES_SERVICE_UUID),
         _adv_data_builder(_adv_buffer) { }
 
     void start() {
@@ -112,11 +116,18 @@ private:
     }
 
     void UpdateTemperatureValue(void) {
-        _es_service->updateTemperature(32);
+        
+        int16_t tempC;
+
+        SHT20.measureTemperature(&tempC);
+        _es_service->updateTemperature(tempC);
     }
 
     void UpdateHumidityValue(void) {
-        _es_service->updateHumidity(37);
+        
+        int16_t relHumidty;
+        SHT20.measureHumidty(&relHumidty);
+        _es_service->updateHumidity(relHumidty);
     }
 
     void UpdatePressureValue(void) {
@@ -164,8 +175,11 @@ void schedule_ble_events(BLE::OnEventsToProcessCallbackContext *context) {
 
 int main()
 {
+
     BLE &ble = BLE::Instance();
+
     ble.onEventsToProcess(schedule_ble_events);
+
 
     ES_Service demo(ble, event_queue);
     demo.start();

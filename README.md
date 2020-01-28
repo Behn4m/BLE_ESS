@@ -23,7 +23,7 @@ https://os.mbed.com/teams/MtM/code/SHT2X/
 
 **Step 5**: Create update functions
 ```
-void UpdateTemperatureValue(void) {
+    void UpdateTemperatureValue(void) {
         
         int16_t tempC;
 
@@ -36,7 +36,7 @@ void UpdateTemperatureValue(void) {
         int16_t relHumidty;
         SHT20.measureHumidty(&relHumidty);
         _es_service->updateHumidity(relHumidty);
-    }```
+    }
 
 
 

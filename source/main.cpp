@@ -39,7 +39,7 @@ public:
         _led4(LED4, 1),
         //_button(BLE_BUTTON_PIN_NAME, BLE_BUTTON_PIN_PULL),
         _es_service(NULL),
-        _ess_uuid(EnvironmentalService::ES_SERVICE_UUID),
+        _ess_uuid(GattService::UUID_ENVIRONMENTAL_SERVICE),
         _adv_data_builder(_adv_buffer) { }
 
     void start() {
